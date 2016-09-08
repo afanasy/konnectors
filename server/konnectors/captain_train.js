@@ -11,16 +11,16 @@ const moment = require('moment');
 
 const Bill = require('../models/bill');
 /* The goal of this connector is to fetch bills from the
-service captaintrain.com */
+service trainline.eu */
 
 const logger = require('printit')({
-  prefix: 'Captaintrain',
+  prefix: 'Trainline',
   date: true,
 });
 
 
 module.exports = baseKonnector.createNew({
-  name: 'Captain Train',
+  name: 'Trainline',
 
   fields: {
     login: 'email',
@@ -41,7 +41,7 @@ module.exports = baseKonnector.createNew({
       maxDateDelta: 1,
       model: Bill,
       amountDelta: 0.1,
-      identifier: ['CAPITAINE TRAIN', 'CAPTAIN TRAIN', 'OUIGO'],
+      identifier: ['CAPITAINE TRAIN', 'CAPTAIN TRAIN', 'OUIGO', 'TRAINLINE'],
     }),
     buildNotifContent,
   ],
@@ -49,11 +49,11 @@ module.exports = baseKonnector.createNew({
 });
 
 const fileOptions = {
-  vendor: 'Captaintrain',
+  vendor: 'Trainline',
   dateFormat: 'YYYYMMDD',
 };
 
-const baseUrl = 'https://www.captaintrain.com/';
+const baseUrl = 'https://www.trainline.eu/';
 const client = requestJson.createClient(baseUrl);
 const userAgent = 'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:37.0) ' +
                   'Gecko/20100101 Firefox/37.0';
@@ -260,7 +260,7 @@ function fetchBills(requiredFields, entries, data, next) {
       const bill = {
         pdfurl: proof.url,
         type: 'train',
-        vendor: 'Captain Train',
+        vendor: 'Train line',
         date: moment(proof.created_at).hours(0)
                                       .minutes(0)
                                       .seconds(0)
